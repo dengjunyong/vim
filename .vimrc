@@ -117,7 +117,12 @@ autocmd! bufwritepost _vimrc source $VIM/_vimrc "编辑vimrc之后,重新加载
 "mm命令删除windows回车
 nmap mm :%s/\r//g<cr>
 
-
+":map            普通，可视模式及操作符等待模式
+":vmap           可视模式
+":omap           操作符等待模式
+":map!           插入和命令行模式
+":imap           插入模式
+":cmap           命令行模式
 
 "-- WinManager setting --
 "let g:winManagerWindowLayout='BufExplorer,NERDTree|TagList'  "设置我们要管理的插件,使用”,”分隔的插件,在同一个窗口中显示,使用”CTRL-N“在不同插件间切换；使用”|”分隔的插件,则在另外一个窗口中显示
@@ -194,8 +199,8 @@ nmap trn  :TrinityToggleNERDTree<CR>
 
 "--ctags setting--
 "按下F5重新生成tag文件,并更新taglist
-map <F5> :!ctags -R --c++-kinds=+p --fields=+iaS --fields=+lS --extra=+q .<CR><CR> :TlistUpdate<CR>
-imap <F5> <ESC>:!ctags -R --c++-kinds=+p --fields=+iaS --fields=+lS --extra=+q .<CR><CR> :TlistUpdate<CR>
+map <F5> :!ctags -R --c++-kinds=+p --fields=+iaS --fields=+lS --extra=+q .<CR><CR> :!cscope -Rbq <CR><CR> :TlistUpdate<CR>
+imap <F5> <ESC>:!ctags -R --c++-kinds=+p --fields=+iaS --fields=+lS --extra=+q .<CR><CR> :!cscope -Rbq <CR><CR> :TlistUpdate<CR>
 "--c++-kinds=+p : 为C++文件增加函数原型的标签
 "--fields=+iaS :在标签文件中加入继承信息(i)、类成员的访问控制信息(a)、以及函数的指纹(S)
 "--fields=+lS :echofunc需要
@@ -204,7 +209,7 @@ imap <F5> <ESC>:!ctags -R --c++-kinds=+p --fields=+iaS --fields=+lS --extra=+q .
 "set tags+=./tags
 set tags+=/usr/include/tags
 set tags+=/usr/local/include/tags
-set tags+=/usr/src/linux-headers-3.13.0-37/tags
+"set tags+=/usr/src/linux-headers-3.13.0-37/tags
 "CTRL+]就会跳转到对应的定义,CTRL+o可以回退到原来的地方。如果当前光标下是个局部变量,gd跳到这个局部变量的定义处。
 
  "-- Taglist setting --
@@ -235,5 +240,34 @@ nmap <C-K> <C-W>k
 nmap <C-L> <C-W>l
 
 "系统粘贴板
-nmap Y "+yy
-nmap P "+p
+map Y "+yy
+map P "+p
+
+"nmap Y "+yy
+if has("cscope")
+    set csprg=/usr/bin/cscope
+    set csto=0 "cscope 数据库先被搜索,搜索失败的情况下在搜索标签文件
+    set cst "设定了 'cscopetag',都会使用 :cstag 而不是缺省的 :tag ,意味着你总同时搜索 cscope 数据库和标签文件
+    set nocsverb
+    " add any database in current directory
+    if filereadable("cscope.out")
+        cs add cscope.out
+        cs add /usr/include/cscope.out
+        cs add /usr/local/include/cscope.out
+    " else add database pointed to by environment
+    elseif $CSCOPE_DB != ""
+        cs add $CSCOPE_DB
+        cs add /usr/include/cscope.out
+        cs add /usr/local/include/cscope.out
+    endif
+    set csverb
+endif
+nmap <C-_>s :cs find s <C-R>=expand("<cword>")<CR><CR>
+nmap <C-_>g :cs find g <C-R>=expand("<cword>")<CR><CR>
+nmap <C-_>c :cs find c <C-R>=expand("<cword>")<CR><CR>
+nmap <C-_>t :cs find t <C-R>=expand("<cword>")<CR><CR>
+nmap <C-_>e :cs find e <C-R>=expand("<cword>")<CR><CR>
+nmap <C-_>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
+nmap <C-_>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+nmap <C-_>d :cs find d <C-R>=expand("<cword>")<CR><CR>
+
