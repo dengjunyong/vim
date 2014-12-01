@@ -234,3 +234,6 @@ nmap <C-J> <C-W>j
 nmap <C-K> <C-W>k
 nmap <C-L> <C-W>l
 
+"系统粘贴板
+nmap Y "+yy
+nmap P "+p
