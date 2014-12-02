@@ -126,8 +126,8 @@ nmap mm :%s/\r//g<cr>
 
 "-- WinManager setting --
 "let g:winManagerWindowLayout='BufExplorer,NERDTree|TagList'  "设置我们要管理的插件,使用”,”分隔的插件,在同一个窗口中显示,使用”CTRL-N“在不同插件间切换；使用”|”分隔的插件,则在另外一个窗口中显示
-let g:winManagerWindowLayout='TagList|BufExplorer|FileExplorer'
-"let g:winManagerWindowLayout='FileExplorer|TagList'  "设置我们要管理的插件
+"let g:winManagerWindowLayout='TagList|BufExplorer|FileExplorer'
+let g:winManagerWindowLayout='FileExplorer|TagList'  "设置我们要管理的插件
 let g:persistentBehaviour=0 " 如果所有编辑文件都关闭了,退出vim
 "let g:bufExplorerMaxHeight=30 "设置taglistbuffer的最高限制
 "let g:winManagerWidth=20
@@ -209,7 +209,7 @@ imap <F5> <ESC>:!ctags -R --c++-kinds=+p --fields=+iaS --fields=+lS --extra=+q .
 "set tags+=./tags
 set tags+=/usr/include/tags
 set tags+=/usr/local/include/tags
-"set tags+=/usr/src/linux-headers-3.13.0-37/tags
+set tags+=/usr/src/linux-3.10.49/tags
 "CTRL+]就会跳转到对应的定义,CTRL+o可以回退到原来的地方。如果当前光标下是个局部变量,gd跳到这个局部变量的定义处。
 
  "-- Taglist setting --
@@ -254,11 +254,14 @@ if has("cscope")
         cs add cscope.out
         cs add /usr/include/cscope.out
         cs add /usr/local/include/cscope.out
+        cs add /usr/src/linux-3.10.49/cscope.out
     " else add database pointed to by environment
     elseif $CSCOPE_DB != ""
         cs add $CSCOPE_DB
         cs add /usr/include/cscope.out
         cs add /usr/local/include/cscope.out
+        cs add /usr/src/linux-3.10.49/cscope.out
+    "    cs add /usr/local/include/cscope.out
     endif
     set csverb
 endif
