@@ -199,8 +199,8 @@ nmap trn  :TrinityToggleNERDTree<CR>
 
 "--ctags setting--
 "按下F5重新生成tag文件,并更新taglist
-map <F5> :!ctags -R --c++-kinds=+p --fields=+iaS --fields=+lS --extra=+q .<CR><CR> :!cscope -Rbq <CR><CR> :TlistUpdate<CR>
-imap <F5> <ESC>:!ctags -R --c++-kinds=+p --fields=+iaS --fields=+lS --extra=+q .<CR><CR> :!cscope -Rbq <CR><CR> :TlistUpdate<CR>
+map <F5> :!ctags -R --c++-kinds=+p --fields=+iaS --fields=+lS --extra=+q .<CR><CR> :!cscope -Rbq<CR><CR> :TlistUpdate<CR> :cs reset<CR><CR>
+imap <F5><ESC> :!ctags -R --c++-kinds=+p --fields=+iaS --fields=+lS --extra=+q .<CR><CR> :!cscope -Rbq<CR><CR> :TlistUpdate<CR> :cs reset<CR><CR>
 "--c++-kinds=+p : 为C++文件增加函数原型的标签
 "--fields=+iaS :在标签文件中加入继承信息(i)、类成员的访问控制信息(a)、以及函数的指纹(S)
 "--fields=+lS :echofunc需要
